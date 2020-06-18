@@ -92,6 +92,27 @@ func Convert_libvirt_MemoryStat_to_stats_DomainStatsMemory(inMem []libvirt.Domai
 		case libvirt.DOMAIN_MEMORY_STAT_SWAP_OUT:
 			ret.SwapOutSet = true
 			ret.SwapOut = stat.Val
+		case libvirt.VIR_DOMAIN_MEMORY_STAT_MAJOR_FAULT:
+			ret.MajorFaultSet = true
+			ret.MajorFault = stat.Val
+		case libvirt.VIR_DOMAIN_MEMORY_STAT_MINOR_FAULT:
+			ret.MinorFaultSet = true
+			ret.MinorFault = stat.Val
+		case libvirt.VIR_DOMAIN_MEMORY_STAT_USABLE:
+			ret.UsableSet = true
+			ret.Usable = stat.Val
+		case libvirt.VIR_DOMAIN_MEMORY_STAT_DISK_CACHES:
+			ret.DiskCachesSet = true
+			ret.DiskCaches = stat.Val
+		case libvirt.VIR_DOMAIN_MEMORY_STAT_HUGETLB_PGALLOC:
+			ret.HugeTablesPGAllocSet = true
+			ret.HugeTablesPGAlloc = stat.Val
+		case libvirt.VIR_DOMAIN_MEMORY_STAT_HUGETLB_PGFAIL:
+			ret.HugeTablesPGFailSet = true
+			ret.HugeTablesPGFail = stat.Val
+		case libvirt.VIR_DOMAIN_MEMORY_STAT_NR:
+			ret.NRSet = true
+			ret.NR = stat.Val
 		}
 	}
 	return ret

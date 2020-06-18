@@ -53,7 +53,21 @@
     "SwapOut": 0,
     "SwapOutSet": false,
     "Unused": 0, 
-    "UnusedSet": false
+    "UnusedSet": false,
+    "MajorFault": 0,
+    "MajorFaultSet": false,
+    "MinorFault": 0,
+    "MinorFaultSet": false,
+    "Usable": 0,
+    "UsableSet": false,
+    "DiskCaches": 0,
+    "DiskCachesSet": false,
+    "HugeTablesPGAlloc": 0,
+    "HugeTablesPGAllocSet": false,
+    "HugeTablesPGFail": 0,
+    "HugeTablesPGFailSet": false,
+    "NR": 0,
+    "NRSet": false
   }, 
   "Name": "testName", 
   "Net": [

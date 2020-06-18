@@ -133,16 +133,30 @@ type DomainStatsBlock struct {
 // mimic existing structs, but data is taken from
 // DomainMemoryStat
 type DomainStatsMemory struct {
-	UnusedSet        bool
-	Unused           uint64
-	AvailableSet     bool
-	Available        uint64
-	ActualBalloonSet bool
-	ActualBalloon    uint64
-	RSSSet           bool
-	RSS              uint64
-	SwapInSet        bool
-	SwapIn           uint64
-	SwapOutSet       bool
-	SwapOut          uint64
+	UnusedSet            bool
+	Unused               uint64
+	AvailableSet         bool
+	Available            uint64
+	ActualBalloonSet     bool
+	ActualBalloon        uint64
+	RSSSet               bool
+	RSS                  uint64
+	SwapInSet            bool
+	SwapIn               uint64
+	SwapOutSet           bool
+	SwapOut              uint64
+	MajorFaultSet        bool
+	MajorFault           uint64
+	MinorFaultSet        bool
+	MinorFault           uint64
+	UsableSet            bool
+	Usable               uint64
+	DiskCachesSet        bool
+	DiskCaches           uint64
+	HugeTablesPGAllocSet bool
+	HugeTablesPGAlloc    uint64
+	HugeTablesPGFailSet  bool
+	HugeTablesPGFail     uint64
+	NRSet                bool
+	NR                   uint64
 }

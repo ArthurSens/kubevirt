@@ -150,6 +150,56 @@ var (
 		},
 		nil,
 	)
+
+	usableDesc = prometheus.NewDesc(
+		"kubevirt_vmi_memory_usable_bytes_total",
+		"usable memory",
+		[]string{
+			"node", "namespace", "name",
+			"domain",
+		},
+		nil,
+	)
+
+	diskCachesDesc = prometheus.NewDesc(
+		"kubevirt_vmi_memory_disk_caches_bytes_total",
+		"disk caches memory",
+		[]string{
+			"node", "namespace", "name",
+			"domain",
+		},
+		nil,
+	)
+
+	hugeTablesAllocDesc = prometheus.NewDesc(
+		"kubevirt_vmi_memory_hugetables_alloc_bytes_total",
+		"disk caches memory",
+		[]string{
+			"node", "namespace", "name",
+			"domain",
+		},
+		nil,
+	)
+
+	hugeTablesFailDesc = prometheus.NewDesc(
+		"kubevirt_vmi_memory_hugetables_fail_bytes_total",
+		"disk caches memory",
+		[]string{
+			"node", "namespace", "name",
+			"domain",
+		},
+		nil,
+	)
+
+	NRDesc = prometheus.NewDesc(
+		"kubevirt_vmi_memory_nr_bytes_total",
+		"disk caches memory",
+		[]string{
+			"node", "namespace", "name",
+			"domain",
+		},
+		nil,
+	)
 )
 
 func tryToPushMetric(desc *prometheus.Desc, mv prometheus.Metric, err error, ch chan<- prometheus.Metric) {
@@ -201,6 +251,61 @@ func updateMemory(vmi *k6tv1.VirtualMachineInstance, vmStats *stats.DomainStats,
 			vmStats.Name, "out",
 		)
 		tryToPushMetric(swapTrafficDesc, mv, err, ch)
+	}
+
+	if vmStats.Memory.UsableSet {
+		mv, err := prometheus.NewConstMetric(
+			usableDesc, prometheus.GaugeValue,
+			// the libvirt value is in KiB
+			float64(vmStats.Memory.Usable)*1024,
+			vmi.Status.NodeName, vmi.Namespace, vmi.Name,
+			vmStats.Name, 
+		)
+		tryToPushMetric(usableDesc, mv, err, ch)
+	}
+
+	if vmStats.Memory.DiskCachesSet {
+		mv, err := prometheus.NewConstMetric(
+			diskCachesDesc, prometheus.GaugeValue,
+			// the libvirt value is in KiB
+			float64(vmStats.Memory.DiskCaches)*1024,
+			vmi.Status.NodeName, vmi.Namespace, vmi.Name,
+			vmStats.Name, 
+		)
+		tryToPushMetric(diskCachesDesc, mv, err, ch)
+	}
+
+	if vmStats.Memory.HugeTablesPGAllocSet {
+		mv, err := prometheus.NewConstMetric(
+			hugeTablesAllocDesc, prometheus.GaugeValue,
+			// the libvirt value is in KiB
+			float64(vmStats.Memory.HugeTablesPGAlloc)*1024,
+			vmi.Status.NodeName, vmi.Namespace, vmi.Name,
+			vmStats.Name, 
+		)
+		tryToPushMetric(hugeTablesAllocDesc, mv, err, ch)
+	}
+
+	if vmStats.Memory.HugeTablesPGFailSet {
+		mv, err := prometheus.NewConstMetric(
+			hugeTablesFailDesc, prometheus.GaugeValue,
+			// the libvirt value is in KiB
+			float64(vmStats.Memory.HugeTablesPGFail)*1024,
+			vmi.Status.NodeName, vmi.Namespace, vmi.Name,
+			vmStats.Name, 
+		)
+		tryToPushMetric(hugeTablesFailDesc, mv, err, ch)
+	}
+
+	if vmStats.Memory.NRSet {
+		mv, err := prometheus.NewConstMetric(
+			NRDesc, prometheus.GaugeValue,
+			// the libvirt value is in KiB
+			float64(vmStats.Memory.NR)*1024,
+			vmi.Status.NodeName, vmi.Namespace, vmi.Name,
+			vmStats.Name, 
+		)
+		tryToPushMetric(NRDesc, mv, err, ch)
 	}
 }
 
